@@ -73,7 +73,7 @@ class ProductDetail {
             ${PRODUCT_CONSTANTS.FINISH_TYPES
               .filter(finish => this.product.availableFinishes.includes(finish))
               .map(finish => `
-                <button id="finish-${finish}" class="finish-option ${finish === this.selectedFinish ? 'active' : ''}" data-finish="${finish}" style="padding: 1rem 1.4rem; min-width: 120px; border: ${finish === this.selectedFinish ? '2px solid #d4a373' : '2px solid #ead7c3'}; border-radius: 12px; background: ${finish === this.selectedFinish ? '#d4a373' : '#f7f3ee'}; color: ${finish === this.selectedFinish ? '#fff' : '#5a4630'}; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+                <button id="finish-${finish}" class="finish-option ${finish === this.selectedFinish ? 'active' : ''}" data-finish="${finish}" style="padding: 1rem 1.4rem; min-width: 120px; border: 2px solid ${finish === this.selectedFinish ? '#b06e33' : '#b06e33'}; border-radius: 12px; background: ${finish === this.selectedFinish ? '#d4a373' : '#ffffff'}; color: ${finish === this.selectedFinish ? '#ffffff' : '#7a4a1f'}; font-weight: 800; letter-spacing:.2px; cursor: pointer; transition: all 0.2s ease;">
                   ${finish.charAt(0).toUpperCase() + finish.slice(1)}
                 </button>
               `).join('')}
