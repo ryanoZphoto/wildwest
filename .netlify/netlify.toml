@@ -4,9 +4,9 @@ redirectsOrigin = "config"
 plugins = []
 
 [build]
+edge_functions = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy\\netlify\\edge-functions"
 publish = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy"
 publishOrigin = "config"
-base = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy"
 functions = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy\\netlify\\functions"
 
 [build.environment]
@@ -28,6 +28,10 @@ publish = "."
 functions = "netlify/functions"
 framework = "#static"
 autoLaunch = true
+
+[[edge_functions]]
+function = "hello"
+path = "/test"
 
 [functions]
 
