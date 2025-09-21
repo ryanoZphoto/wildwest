@@ -105,10 +105,11 @@ class AirtableService {
 
   formatProduct(record) {
     const fields = record?.fields || {};
-    // Prefer a clean display title (strip common suffixes/underscores)
+    // Prefer a clean display title (strip underscores, filenames, suffixes)
     const rawTitle = fields.Title || fields.title || '';
     const cleanTitle = rawTitle
       .replace(/[_-]+/g, ' ')
+      .replace(/\.[^.]+$/, '')
       .replace(/\s+(print|landscape|portrait)$/i, '')
       .trim();
     const finishes = [];
