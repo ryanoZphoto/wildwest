@@ -487,15 +487,15 @@ body.white-bg {
   display: inline-block;
   margin: 1.5rem auto 2.5rem;
   padding: 0.9rem 1.6rem;
-  background: var(--color-primary);
+  background: #2b2b2b;
   color: #fff;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 800;
   border-radius: 999px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
 }
-.order-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.25); }
+.order-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.25); background:#1f1f1f; }
 .order-cta:active { transform: translateY(0); }
 
 /* Scroll reveal animations */

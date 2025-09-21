@@ -110,7 +110,7 @@ class ProductDetail {
             </div>
 
             <div class="action-buttons" id="action-buttons">
-              <button id="add-to-cart-btn" class="order-cta ${!this.product.inStock ? 'disabled' : ''}" style="width: 100%; margin-bottom: 1rem;" ${!this.product.inStock ? 'disabled' : ''}>
+              <button id="add-to-cart-btn" class="order-cta ${!this.product.inStock ? 'disabled' : ''}" style="width: 100%; margin-bottom: 1rem; background:#2b2b2b; color:#ffffff; border:none;" ${!this.product.inStock ? 'disabled' : ''}>
                 Add to Cart ($${this.product.prices[this.selectedFinish]['20x40']})</button>
               <button id="buy-now-btn" style="width: 100%; padding: 1rem; background: #fff; border: 2px solid #b06e33; color: #b06e33; border-radius: 999px; cursor: pointer; font-weight: 800; transition: all 0.2s ease;">
                 Buy Now ($${this.product.prices[this.selectedFinish]['20x40']})
