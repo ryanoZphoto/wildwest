@@ -81,12 +81,12 @@ class ProductDetail {
 
           <!-- Size Selection -->
           <div class="size-selection" id="size-selection" style="margin-bottom: 2rem;">
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">Size Options</h3>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem; color:#2b2b2b;">Size Options</h3>
             <div class="size-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem;">
               ${Object.keys(PRODUCT_CONSTANTS.SIZES).map(size => `
-                <button class="size-option ${size === this.selectedSize ? 'selected' : ''}" data-size="${size}" style="padding: 1rem; border: 2px solid ${size === this.selectedSize ? '#d4a373' : '#e0e0e0'}; border-radius: 8px; background: ${size === this.selectedSize ? 'rgba(212,163,115,0.1)' : '#fff'}; cursor: pointer; transition: all 0.2s ease;">
-                  <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem;">${size}"</div>
-                  <div id="price-${size}" style="font-size: 1rem; color: #d4a373; font-weight: 700;">$${this.product.prices[this.selectedFinish][size]}</div>
+                <button class="size-option ${size === this.selectedSize ? 'selected' : ''}" data-size="${size}" style="padding: 1rem; border: 2px solid ${size === this.selectedSize ? '#b06e33' : '#b06e33'}; border-radius: 8px; background: ${size === this.selectedSize ? '#fff6ed' : '#ffffff'}; cursor: pointer; transition: all 0.2s ease;">
+                  <div style="font-size: 1.1rem; font-weight: 800; color:#2b2b2b; margin-bottom: 0.25rem;">${size}"</div>
+                  <div id="price-${size}" style="font-size: 1rem; color: #b06e33; font-weight: 800;">$${this.product.prices[this.selectedFinish][size]}</div>
                 </button>
               `).join('')}
             </div>
@@ -95,13 +95,13 @@ class ProductDetail {
           <!-- Quantity and Cart -->
           <div class="cart-section" style="margin-bottom: 2rem;" id="cart-section">
             <div class="quantity-selector" id="quantity-selector" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-              <label style="font-weight: 600;">Quantity:</label>
-              <button class="quantity-btn" id="quantity-minus" style="width: 40px; height: 40px; border: 2px solid #e0e0e0; border-radius: 4px; background: #fff; cursor: pointer; font-size: 1.2rem;">-</button>
-              <span id="quantity-display" style="font-size: 1.2rem; font-weight: 600; min-width: 40px; text-align: center;">1</span>
-              <button class="quantity-btn" id="quantity-plus" style="width: 40px; height: 40px; border: 2px solid #e0e0e0; border-radius: 4px; background: #fff; cursor: pointer; font-size: 1.2rem;">+</button>
+              <label style="font-weight: 800; color:#2b2b2b;">Quantity:</label>
+              <button class="quantity-btn" id="quantity-minus" style="width: 40px; height: 40px; border: 2px solid #b06e33; border-radius: 6px; background: #fff; color:#2b2b2b; cursor: pointer; font-size: 1.2rem;">-</button>
+              <span id="quantity-display" style="font-size: 1.2rem; font-weight: 800; min-width: 40px; text-align: center; color:#2b2b2b;">1</span>
+              <button class="quantity-btn" id="quantity-plus" style="width: 40px; height: 40px; border: 2px solid #b06e33; border-radius: 6px; background: #fff; color:#2b2b2b; cursor: pointer; font-size: 1.2rem;">+</button>
             </div>
 
-            <div class="total-price" id="total-price" style="font-size: 1.3rem; font-weight: 800; color: #d4a373; margin-bottom: 1.5rem;">
+            <div class="total-price" id="total-price" style="font-size: 1.3rem; font-weight: 900; color: #2b2b2b; margin-bottom: 1.5rem;">
               Total: $${this.product.prices[this.selectedFinish]['20x40']}
             </div>
 
@@ -137,7 +137,7 @@ class ProductDetail {
 
       <!-- Pagination - Related Products will go here -->
       <section class="related-products" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">
-        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem;">You might also like</h2>
+        <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; color:#2b2b2b;">You might also like</h2>
         <div id="related-products-container" class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
           <!-- Related products will be loaded here -->
         </div>
