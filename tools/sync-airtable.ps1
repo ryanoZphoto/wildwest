@@ -122,6 +122,11 @@ foreach($r in $records){
 # Ensure primary field candidates are present
 [void]$allowedFieldNames.Add('Title')
 [void]$allowedFieldNames.Add('title')
+# Add safe known fields even if not present in the first page (no schema scope)
+$alwaysAllow = @(
+  'MainImage','AcrylicPreview','MetalPreview','CanvasPreview'
+)
+foreach($n in $alwaysAllow){ [void]$allowedFieldNames.Add($n) }
 
 function Filter-AllowedFields([hashtable]$inputFields, $allowed){
   $out = [ordered]@{}
@@ -139,8 +144,9 @@ foreach($kv in $imgMap.GetEnumerator()){
   $short = 'Premium print'
 
   $acPrev = PrevUrl 'acrylic_previews' $slug
-  $mePrev = PrevUrl 'metal_previews' $slug
-  $caPrev = PrevUrl 'canvas_previews' $slug
+  # Temporarily disable metal/canvas preview updates to avoid unknown-field errors
+  $mePrev = $null
+  $caPrev = $null
 
   $fields = [ordered]@{
     title         = $title
@@ -155,8 +161,6 @@ foreach($kv in $imgMap.GetEnumerator()){
     Canvas20x40   = 180; Canvas24x36=130; Canvas20x30=100; Canvas16x24=60
   }
   if($acPrev){ $fields.AcrylicPreview = @(@{ url = $acPrev }) }
-  if($mePrev){ $fields.MetalPreview   = @(@{ url = $mePrev }) }
-  if($caPrev){ $fields.CanvasPreview  = @(@{ url = $caPrev }) }
 
   $safeFields = Filter-AllowedFields $fields $allowedFieldNames
   if($existingBySlug.ContainsKey($slug)){
