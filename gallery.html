@@ -80,6 +80,8 @@
         grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem;"><p>Loading gallery...</p></div>';
 
         this.products = await airtableService.getAllProducts();
+        // Show only one card per photo (dedupe by slug/title)
+        this.products = this.mergeBySlug(this.products);
         if (!this.products || this.products.length === 0) {
           await this.loadLocalFallback();
         } else {
@@ -90,6 +92,24 @@
         console.error('Error loading products:', error);
         await this.loadLocalFallback();
       }
+    }
+
+    // Keep a single gallery card per unique photo
+    mergeBySlug(products) {
+      const pickBetter = (a, b) => {
+        if (!!a?.featured !== !!b?.featured) return a?.featured ? a : b;
+        const at = new Date(a?.createdTime || 0).getTime();
+        const bt = new Date(b?.createdTime || 0).getTime();
+        return at >= bt ? a : b;
+      };
+      const byKey = new Map();
+      products.forEach(p => {
+        const key = (p?.slug || p?.title || '').toString().toLowerCase().trim();
+        if (!key) return;
+        const existing = byKey.get(key);
+        byKey.set(key, existing ? pickBetter(existing, p) : p);
+      });
+      return Array.from(byKey.values());
     }
 
     async loadLocalFallback() {
