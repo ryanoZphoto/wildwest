@@ -112,13 +112,31 @@ class AirtableService {
       .replace(/\.[^.]+$/, '')
       .replace(/\s+(print|landscape|portrait)$/i, '')
       .trim();
+    const slug = this.generateSlug(rawTitle || cleanTitle);
+    const aliasMap = {
+      'antelopecanyon': 'Antelope Canyon',
+      'superstitionmtn': 'Superstition Mountain',
+      'utahbigarch': 'Utah Big Arch',
+      'rainbowstorm': 'Rainbow Storm',
+      'abstractclearside': 'Abstract Clearside',
+      'monument-costco': 'Monument Costco',
+      'monumentcostco': 'Monument Costco',
+      'buffalo': 'Buffalo',
+      'abstract': 'Abstract'
+    };
+    const toTitleCase = (s) => (s || '')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/(^|\s)\S/g, (m) => m.toUpperCase());
     const finishes = [];
     if (fields.AcrylicPreview || fields.Acrylic20x40) finishes.push('acrylic');
     if (fields.MetalPreview || fields.Metal20x40) finishes.push('metal');
     if (fields.CanvasPreview || fields.Canvas20x40) finishes.push('canvas');
+    const finalTitle = aliasMap[slug] || toTitleCase(cleanTitle);
     return {
       id: record.id,
-      title: cleanTitle,
+      title: finalTitle,
       description: fields.Description || '',
       shortDescription: fields.ShortDescription || fields.Description?.substring(0, 100) + '...' || '',
       category: fields.Category || 'Uncategorized',
