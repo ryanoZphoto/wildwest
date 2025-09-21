@@ -147,7 +147,7 @@
     }
 
     setupSearchFilters() {
-      // Search input
+      // Search input (kept for internal filtering; titles are not displayed)
       const searchInput = document.createElement('input');
       searchInput.type = 'text';
       searchInput.placeholder = 'Search products...';
@@ -226,9 +226,9 @@
       const finishes = ['canvas', 'metal', 'acrylic'];
 
       return `
-        <div class="gallery-card" tabindex="0" aria-label="${product.title}">
+        <div class="gallery-card" tabindex="0" aria-label="Artwork">
           <a href="${product.local ? `photos/${product.id}.html` : `product.html?id=${product.id}`}" aria-hidden="true" tabindex="-1">
-            <img src="${product.mainImage}" alt="${product.title}" class="thumb" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
+            <img src="${product.mainImage}" alt="Artwork" class="thumb" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
           </a>
           <div class="actions">
             ${finishes.map(finish => `
@@ -238,7 +238,6 @@
             `).join('')}
           </div>
           <div class="product-info">
-            <h3 class="product-title">${product.title}</h3>
             <p class="product-price">From $${Math.min(...Object.values(product.prices.acrylic))}</p>
           </div>
         </div>
