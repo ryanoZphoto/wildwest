@@ -18,6 +18,12 @@ class ProductDetail {
     this.render();
     this.setupEventListeners();
     this.setupImageGallery();
+    // Ensure UI reflects preselected finish/size immediately
+    this.updateImagePreview();
+    this.updatePrices();
+    this.updateTotalPrice();
+    this.updateFinishStyles();
+    this.updateSizeStyles();
   }
 
   render() {
@@ -67,7 +73,7 @@ class ProductDetail {
             ${PRODUCT_CONSTANTS.FINISH_TYPES
               .filter(finish => this.product.availableFinishes.includes(finish))
               .map(finish => `
-                <button id="finish-${finish}" class="finish-option ${finish === 'acrylic' ? 'active' : ''}" data-finish="${finish}" style="padding: 1rem 1.4rem; min-width: 120px; border: none; border-radius: 12px; background: ${finish === 'acrylic' ? '#d4a373' : 'rgba(255,255,255,0.1)'}; color: ${finish === 'acrylic' ? '#fff' : '#eaeaea'}; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+                <button id="finish-${finish}" class="finish-option ${finish === this.selectedFinish ? 'active' : ''}" data-finish="${finish}" style="padding: 1rem 1.4rem; min-width: 120px; border: none; border-radius: 12px; background: ${finish === this.selectedFinish ? '#d4a373' : 'rgba(255,255,255,0.1)'}; color: ${finish === this.selectedFinish ? '#fff' : '#eaeaea'}; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
                   ${finish.charAt(0).toUpperCase() + finish.slice(1)}
                 </button>
               `).join('')}
@@ -78,9 +84,9 @@ class ProductDetail {
             <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">Size Options</h3>
             <div class="size-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem;">
               ${Object.keys(PRODUCT_CONSTANTS.SIZES).map(size => `
-                <button class="size-option ${size === '20x40' ? 'selected' : ''}" data-size="${size}" style="padding: 1rem; border: 2px solid ${size === '20x40' ? '#d4a373' : '#e0e0e0'}; border-radius: 8px; background: ${size === '20x40' ? 'rgba(212,163,115,0.1)' : '#fff'}; cursor: pointer; transition: all 0.2s ease;">
+                <button class="size-option ${size === this.selectedSize ? 'selected' : ''}" data-size="${size}" style="padding: 1rem; border: 2px solid ${size === this.selectedSize ? '#d4a373' : '#e0e0e0'}; border-radius: 8px; background: ${size === this.selectedSize ? 'rgba(212,163,115,0.1)' : '#fff'}; cursor: pointer; transition: all 0.2s ease;">
                   <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem;">${size}"</div>
-                  <div id="price-${size}" style="font-size: 1rem; color: #d4a373; font-weight: 700;">$${this.product.prices.acrylic[size]}</div>
+                  <div id="price-${size}" style="font-size: 1rem; color: #d4a373; font-weight: 700;">$${this.product.prices[this.selectedFinish][size]}</div>
                 </button>
               `).join('')}
             </div>
@@ -96,7 +102,7 @@ class ProductDetail {
             </div>
 
             <div class="total-price" id="total-price" style="font-size: 1.3rem; font-weight: 800; color: #d4a373; margin-bottom: 1.5rem;">
-              Total: $${this.product.prices.acrylic['20x40']}
+              Total: $${this.product.prices[this.selectedFinish]['20x40']}
             </div>
 
             <div class="availability" id="availability-message" style="margin-bottom: 1rem; display: ${this.product.inStock ? 'none' : 'block'}; color: #dc2626; font-weight: 600;">
@@ -105,9 +111,9 @@ class ProductDetail {
 
             <div class="action-buttons" id="action-buttons">
               <button id="add-to-cart-btn" class="order-cta ${!this.product.inStock ? 'disabled' : ''}" style="width: 100%; margin-bottom: 1rem;" ${!this.product.inStock ? 'disabled' : ''}>
-                Add to Cart (${this.product.prices.acrylic['20x40']})</button>
+                Add to Cart ($${this.product.prices[this.selectedFinish]['20x40']})</button>
               <button id="buy-now-btn" style="width: 100%; padding: 1rem; background: transparent; border: 2px solid #d4a373; color: #d4a373; border-radius: 999px; cursor: pointer; font-weight: 700; transition: all 0.2s ease;">
-                Buy Now (${this.product.prices.acrylic['20x40']})
+                Buy Now ($${this.product.prices[this.selectedFinish]['20x40']})
               </button>
             </div>
 
@@ -149,6 +155,7 @@ class ProductDetail {
         this.updateImagePreview();
         this.updatePrices();
         this.updateTotalPrice();
+        this.updateFinishStyles();
       });
     });
 
@@ -159,6 +166,7 @@ class ProductDetail {
         e.target.closest('.size-option').classList.add('selected');
         this.selectedSize = e.target.closest('.size-option').dataset.size;
         this.updateTotalPrice();
+        this.updateSizeStyles();
       });
     });
 
@@ -344,6 +352,23 @@ class ProductDetail {
           priceElement.textContent = `$${price}`;
         }
       }
+    });
+  }
+
+  updateFinishStyles() {
+    document.querySelectorAll('.finish-option').forEach(btn => {
+      const isActive = btn.dataset.finish === this.selectedFinish;
+      btn.classList.toggle('active', isActive);
+      btn.style.background = isActive ? '#d4a373' : 'rgba(255,255,255,0.1)';
+      btn.style.color = isActive ? '#fff' : '#eaeaea';
+    });
+  }
+
+  updateSizeStyles() {
+    document.querySelectorAll('.size-option').forEach(btn => {
+      const isSel = btn.dataset.size === this.selectedSize;
+      btn.style.borderColor = isSel ? '#d4a373' : '#e0e0e0';
+      btn.style.background = isSel ? 'rgba(212,163,115,0.1)' : '#fff';
     });
   }
 
