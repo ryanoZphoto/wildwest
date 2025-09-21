@@ -5,7 +5,9 @@ class ProductDetail {
   constructor(productData, containerId) {
     this.product = productData;
     this.container = document.getElementById(containerId);
-    this.selectedFinish = 'acrylic';
+    // Preselect finish from URL if provided
+    const urlParams = new URLSearchParams(window.location.search);
+    this.selectedFinish = (urlParams.get('finish') || 'acrylic').toLowerCase();
     this.selectedSize = '20x40';
     this.selectedQuantity = 1;
     this.currentImageIndex = 0;

@@ -105,13 +105,19 @@ class AirtableService {
 
   formatProduct(record) {
     const fields = record?.fields || {};
+    // Prefer a clean display title (strip common suffixes/underscores)
+    const rawTitle = fields.Title || fields.title || '';
+    const cleanTitle = rawTitle
+      .replace(/[_-]+/g, ' ')
+      .replace(/\s+(print|landscape|portrait)$/i, '')
+      .trim();
     const finishes = [];
     if (fields.AcrylicPreview || fields.Acrylic20x40) finishes.push('acrylic');
     if (fields.MetalPreview || fields.Metal20x40) finishes.push('metal');
     if (fields.CanvasPreview || fields.Canvas20x40) finishes.push('canvas');
     return {
       id: record.id,
-      title: fields.Title || '',
+      title: cleanTitle,
       description: fields.Description || '',
       shortDescription: fields.ShortDescription || fields.Description?.substring(0, 100) + '...' || '',
       category: fields.Category || 'Uncategorized',
