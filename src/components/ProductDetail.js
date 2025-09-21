@@ -73,7 +73,7 @@ class ProductDetail {
             ${PRODUCT_CONSTANTS.FINISH_TYPES
               .filter(finish => this.product.availableFinishes.includes(finish))
               .map(finish => `
-                <button id="finish-${finish}" class="finish-option ${finish === this.selectedFinish ? 'active' : ''}" data-finish="${finish}" style="padding: 1rem 1.4rem; min-width: 120px; border: none; border-radius: 12px; background: ${finish === this.selectedFinish ? '#d4a373' : 'rgba(255,255,255,0.1)'}; color: ${finish === this.selectedFinish ? '#fff' : '#eaeaea'}; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+                <button id="finish-${finish}" class="finish-option ${finish === this.selectedFinish ? 'active' : ''}" data-finish="${finish}" style="padding: 1rem 1.4rem; min-width: 120px; border: ${finish === this.selectedFinish ? '2px solid #d4a373' : '2px solid #ead7c3'}; border-radius: 12px; background: ${finish === this.selectedFinish ? '#d4a373' : '#f7f3ee'}; color: ${finish === this.selectedFinish ? '#fff' : '#5a4630'}; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
                   ${finish.charAt(0).toUpperCase() + finish.slice(1)}
                 </button>
               `).join('')}
@@ -112,7 +112,7 @@ class ProductDetail {
             <div class="action-buttons" id="action-buttons">
               <button id="add-to-cart-btn" class="order-cta ${!this.product.inStock ? 'disabled' : ''}" style="width: 100%; margin-bottom: 1rem;" ${!this.product.inStock ? 'disabled' : ''}>
                 Add to Cart ($${this.product.prices[this.selectedFinish]['20x40']})</button>
-              <button id="buy-now-btn" style="width: 100%; padding: 1rem; background: transparent; border: 2px solid #d4a373; color: #d4a373; border-radius: 999px; cursor: pointer; font-weight: 700; transition: all 0.2s ease;">
+              <button id="buy-now-btn" style="width: 100%; padding: 1rem; background: #fff; border: 2px solid #b06e33; color: #b06e33; border-radius: 999px; cursor: pointer; font-weight: 800; transition: all 0.2s ease;">
                 Buy Now ($${this.product.prices[this.selectedFinish]['20x40']})
               </button>
             </div>

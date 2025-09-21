@@ -82,9 +82,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn-primary:hover { transform: translateY(-2px); box-shadow:0 14px 30px rgba(212,163,115,.45); }
 .btn-secondary {
-  display:inline-block; padding:.9rem 1.4rem; border-radius:999px; background:rgba(255,255,255,.1); color:#fff; text-decoration:none; font-weight:800; backdrop-filter: blur(2px); border:1px solid rgba(255,255,255,.25);
+  display:inline-block; padding:.9rem 1.4rem; border-radius:999px; background:#fff; color:#b06e33; text-decoration:none; font-weight:800; border:2px solid #b06e33; box-shadow:0 4px 12px rgba(0,0,0,.06);
 }
-.btn-secondary:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.35); transform: translateY(-1px); }
+.btn-secondary:hover { background:#f7f3ee; transform: translateY(-1px); }
 
 /* First-view pulse for primary CTA in hero */
 .hero-ctas .btn-primary { animation: hero-pulse 1.4s ease 0.6s 1 both; }
