@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Airtable API Token Test ONLY</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+    .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { color: #0066cc; margin-bottom: 30px; }
+    .step { background: #f8f9fa; padding: 20px; margin: 15px 0; border-left: 4px solid #007bff; border-radius: 0 4px 4px 0; }
+    button { background: #007bff; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 4px; cursor: pointer; margin: 10px 0; }
+    button:hover { background: #0056b3; }
+    input[type="text"] { width: 100%; padding: 12px; font-size: 16px; border: 2px solid #ddd; border-radius: 4px; margin-bottom: 20px; }
+    .result { padding: 20px; margin-top: 20px; border-radius: 4px; font-family: monospace; white-space: pre-wrap; word-break: break-all; }
+    .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+    .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+    .info { background: #cce5ff; border: 1px solid #99d6ff; color: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Airtable Token Test ONLY</h1>
+
+    <div class="step">
+      <h3>Step 1: Enter Your Airtable Personal Access Token</h3>
+      <p>This tests ONLY if your token is valid and can access Airtable's API.</p>
+      <input type="text" id="apiToken" placeholder="patXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" value="pat9priH4bdHa2YYJ.c3a5f89d2ed5426830627e4251cfc29f013ed7c6947db58883246108791ea519">
+      <br><br>
+      <button onclick="testToken()">Test Token</button>
+      <button onclick="clearResults()">Clear</button>
+    </div>
+
+    <div id="results"></div>
+
+  </div>
+
+  <script>
+    // Configuration constants
+    const BASE_ID = 'appCyGCMhGEMMt2Pq';
+    const TABLE_NAME = 'products';
+
+    // Function to add result messages
+    function addResult(message, type = 'info', data = null) {
+      const results = document.getElementById('results');
+      const div = document.createElement('div');
+      div.className = `result ${type}`;
+      div.innerHTML = `${message}${data ? '\n\n' + JSON.stringify(data, null, 2) : ''}`;
+      results.appendChild(div);
+    }
+
+    // Test the token validity
+    async function testToken() {
+      const token = document.getElementById('apiToken').value.trim();
+      if (!token) {
+        addResult('❌ Please enter your API token first', 'error');
+        return;
+      }
+
+      addResult('🔄 Testing token...', 'info');
+
+      try {
+        // Test 1: Try to access the user's specific base with the token
+        const testUrl = `https://api.airtable.com/v0/${BASE_ID}?maxRecords=1`;
+        const response = await fetch(testUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+
+          // Success! Show what we found
+          addResult(`✅ TOKEN WORKS! 🎉\n\nYour token successfully connected to your base!`, 'success');
+          addResult(`📊 Base Details:\n- Base ID: ${BASE_ID}\n- Found ${data.records ? data.records.length : 'N/A'} records\n- API Access: Working!`, 'success');
+
+          // Now try to access the specific table
+          await testTableAccess(token);
+
+        } else {
+          const errorData = await response.text().catch(() => 'No error details');
+
+          // Handle specific error codes
+          if (response.status === 401) {
+            addResult(`❌ TOKEN INVALID! - HTTP ${response.status}: Unauthorized\n\nThis means:\n🔑 Your token is expired or incorrect\n⚡ Solution: Generate a new Personal Access Token in Airtable`, 'error');
+          } else if (response.status === 403) {
+            addResult(`❌ TOKEN PERMISSIONS ISSUE - HTTP ${response.status}: Forbidden\n\nThis means:\n🔒 Your token lacks access to this base\n⚖️ Solution: Check "All current and future bases" permission`, 'error');
+          } else if (response.status === 404) {
+            addResult(`❌ BASE NOT FOUND - HTTP ${response.status}: Not Found\n\nThis means:\n📍 Base ID is wrong: ${BASE_ID}\n📝 Check your actual Base ID in Airtable URL`, 'error');
+          } else if (response.status === 422) {
+            addResult(`❌ BASE CONFIG ISSUE - HTTP ${response.status}: Unprocessable\n\nThis means:\n⚙️ The base exists but token can't access it\n🔧 Verify token has read permissions`, 'error');
+          } else {
+            addResult(`❌ UNKNOWN ERROR - HTTP ${response.status}: ${response.statusText}\n\nError: ${errorData}\n\nTry generating a fresh Personal Access Token.`, 'error');
+          }
+        }
+
+      } catch (error) {
+        addResult(`❌ NETWORK ERROR: ${error.message}\n\nThis could mean:\n🔌 Internet connection issue\n🌐 CORS/firewall blocking\n🛑 Browser security blocking request\n\nTry using a different browser or VPN.`, 'error');
+      }
+    }
+
+    async function testTableAccess(token) {
+      try {
+        const tableUrl = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}?maxRecords=1`;
+        const tableResponse = await fetch(tableUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (tableResponse.ok) {
+          const tableData = await tableResponse.json();
+          addResult(`✅ TABLE ACCESS WORKS!\n\n- Table: ${TABLE_NAME}\n- Records: ${tableData.records ? tableData.records.length : 'No'} sample records found`, 'success');
+        } else {
+          addResult(`⚠️ Base works, but table access failed. Check table name: ${TABLE_NAME}`, 'error');
+        }
+      } catch (error) {
+        addResult(`⚠️ Could not test table access: ${error.message}`, 'error');
+      }
+    }
+
+    // Clear results
+    function clearResults() {
+      document.getElementById('results').innerHTML = '<div class="result info">Results cleared. Click Test Token to begin.</div>';
+    }
+
+    // Auto-test on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      addResult('🔧 Airtable Token Test Setup\n\nBase ID to test: appCyGCMhGEMMt2Pq\n\nInstruction: Enter your token and click "Test Token" to validate it.', 'info');
+    });
+  </script>
+</body>
+</html>

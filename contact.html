@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Contact - Wild West Wall Art</title>
+	<link rel="stylesheet" href="styles.css" />
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17501059263"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17501059263');
+</script></head>
+<body class="white-bg">
+	<nav class="nav" aria-label="Primary">
+		<div class="nav-inner">
+			<a class="nav-brand" href="index.html">
+				<img src="finlogo.png" alt="Wild West Wall Art logo" class="logo">
+				<span>Wild West Wall Art</span>
+			</a>
+			<button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">☰</button>
+			<ul id="nav-menu" class="nav-links">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="gallery.html">Gallery</a></li>
+				<li><a href="cart.html">Cart</a></li>
+				<li><a href="contact.html" aria-current="page">Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<main style="padding: 1.5rem 1rem; max-width: 800px; margin: 0 auto;">
+		<h1>Contact</h1>
+		<p>Have a question or custom request? Send a message and we’ll get back to you.</p>
+		<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thankyou.html">
+			<input type="hidden" name="form-name" value="contact">
+			<p style="display:none">
+				<label>Don’t fill this out: <input name="bot-field"></label>
+			</p>
+			<p>
+				<label>Name:<br>
+					<input type="text" name="name" required>
+				</label>
+			</p>
+			<p>
+				<label>Email:<br>
+					<input type="email" name="email" required>
+				</label>
+			</p>
+			<p>
+				<label>Message:<br>
+					<textarea name="message" rows="6" required></textarea>
+				</label>
+			</p>
+			<p>
+				<button type="submit" class="order-cta">Send Message</button>
+			</p>
+		</form>
+	</main>
+
+	<script>
+	// Mobile nav toggle
+	(function(){
+		const btn = document.querySelector('.nav-toggle');
+		const menu = document.getElementById('nav-menu');
+		if (btn && menu) {
+			btn.addEventListener('click', () => {
+				const open = menu.classList.toggle('open');
+				btn.setAttribute('aria-expanded', String(open));
+			});
+		}
+	})();
+	</script>
+</body>
+</html>
+
+

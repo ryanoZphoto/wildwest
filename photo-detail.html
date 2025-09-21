@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Photo Detail | Western Wall Art – Wild West Wall Art</title>
+	<meta name="description" content="View finishes and sizes for premium Western wall art prints. Choose canvas, metal, or acrylic and order online." />
+	<link rel="stylesheet" href="styles.css" />
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": "Wild West Wall Art",
+		"url": "https://ryanosmunphoto.com/",
+		"logo": "https://ryanosmunphoto.com/finlogo.png",
+		"sameAs": [
+			"https://www.instagram.com/wildwestwallart/",
+			"https://www.facebook.com/737106739485705"
+		],
+		"contactPoint": [{
+			"@type": "ContactPoint",
+			"contactType": "customer support",
+			"telephone": "+1-480-235-0732",
+			"email": "ryan@ryanosmunphoto.com"
+		}],
+		"address": {
+			"@type": "PostalAddress",
+			"addressLocality": "Mesa",
+			"addressRegion": "AZ",
+			"addressCountry": "US"
+		}
+	}
+	</script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-67REFDBJP3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-67REFDBJP3');
+	</script>
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17501059263"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17501059263');
+</script>
+</head>
+<body class="white-bg">
+	<nav class="nav" aria-label="Primary">
+		<div class="nav-inner">
+			<a class="nav-brand" href="index.html">
+				<img src="finlogo.png" alt="Wild West Wall Art logo" class="logo">
+				<span>Wild West Wall Art</span>
+			</a>
+			<button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">☰</button>
+			<ul id="nav-menu" class="nav-links">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="gallery.html">Gallery</a></li>
+				<li><a href="cart.html">Cart</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<main style="padding: 1.5rem 1rem;">
+		<h1 id="photo-title">Selected Photo</h1>
+		<div class="finish-tabs" role="tablist" aria-label="Finish options">
+			<button data-finish="canvas" class="active" role="tab" aria-selected="true">Canvas</button>
+			<button data-finish="metal" role="tab" aria-selected="false">Metal</button>
+			<button data-finish="acrylic" role="tab" aria-selected="false">Acrylic</button>
+		</div>
+		<div id="preview-container" class="preview-container" aria-live="polite"></div>
+		<a id="order-btn" class="order-cta" href="#">Order This Print</a>
+	</main>
+
+	<footer>
+		<p>&copy; 2024 Wild West Wall Art · <a href="legal/shipping.html">Shipping</a> · <a href="legal/returns.html">Returns</a></p>
+	</footer>
+
+	<script>
+	(function(){
+		const params = new URLSearchParams(window.location.search);
+		const img = params.get('img');
+		const baseName = img ? img.replace(/\.[^.]+$/, '') : '';
+		const titleText = baseName.replace(/[-_]+/g,' ').replace(/\b\w/g, m => m.toUpperCase());
+		document.getElementById('photo-title').textContent = titleText || 'Photo';
+
+		const previewContainer = document.getElementById('preview-container');
+		const orderBtn = document.getElementById('order-btn');
+		let currentFinish = 'canvas';
+
+		function imgExists(src){
+			return new Promise(resolve => {
+				const i = new Image();
+				i.onload = () => resolve(src);
+				i.onerror = () => resolve(null);
+				i.src = src;
+			});
+		}
+
+		async function loadFinishVariants(finish){
+			currentFinish = finish;
+			previewContainer.innerHTML = '';
+			if (!baseName) return;
+
+			const folder = `${finish}_previews`;
+			const candidates = [];
+			// base file (no number)
+			candidates.push(`${folder}/${baseName}_${finish}.jpg`);
+			// numbered variants 1..2
+			for (let n=1; n<=2; n++) {
+				candidates.push(`${folder}/${baseName}_${finish}${n}.jpg`);
+			}
+			// explicit variant suffix
+			candidates.push(`${folder}/${baseName}_${finish}_variant.jpg`);
+
+			const checks = await Promise.all(candidates.map(imgExists));
+			const valid = checks.filter(Boolean).slice(0, 6);
+
+			if (valid.length === 0) {
+				const fallback = `images/${img}`;
+				const el = document.createElement('img');
+				el.src = fallback;
+				el.alt = `${titleText} (${finish})`;
+				el.loading = 'lazy';
+				el.decoding = 'async';
+				previewContainer.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+				previewContainer.appendChild(el);
+				return;
+			}
+
+			const colMin = valid.length >= 3 ? 300 : (valid.length === 2 ? 350 : 480);
+			previewContainer.style.gridTemplateColumns = `repeat(auto-fit, minmax(${colMin}px, 1fr))`;
+			valid.forEach(src => {
+				const el = document.createElement('img');
+				el.src = src;
+				el.alt = `${titleText} (${finish})`;
+				el.loading = 'lazy';
+				el.decoding = 'async';
+				previewContainer.appendChild(el);
+			});
+		}
+
+		// Tab wiring
+		document.querySelectorAll('.finish-tabs button').forEach(btn => {
+			btn.addEventListener('click', () => {
+				document.querySelectorAll('.finish-tabs button').forEach(b => b.classList.remove('active'));
+				btn.classList.add('active');
+				loadFinishVariants(btn.getAttribute('data-finish'));
+			});
+		});
+
+		// Order button routes to cart with params
+		orderBtn.addEventListener('click', (e) => {
+			e.preventDefault();
+			const url = new URL('cart.html', window.location.origin);
+			url.searchParams.set('img', img || '');
+			url.searchParams.set('finish', currentFinish);
+			url.searchParams.set('title', titleText);
+			window.location.href = url.pathname + url.search;
+		});
+
+		// initial load
+		loadFinishVariants('canvas');
+
+		// Inject Breadcrumb and Product JSON-LD with real values from current page
+		(function addStructuredData(){
+			if (!img) return;
+			const baseUrl = 'https://ryanosmunphoto.com/';
+			const pageUrl = baseUrl + 'photo-detail.html?img=' + encodeURIComponent(img);
+			const imageUrl = baseUrl + 'images/' + encodeURIComponent(img);
+			// Breadcrumbs
+			const breadcrumb = {
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				"itemListElement": [
+					{"@type":"ListItem","position":1,"name":"Home","item":baseUrl},
+					{"@type":"ListItem","position":2,"name":"Gallery","item":baseUrl + 'index.html#gallery'},
+					{"@type":"ListItem","position":3,"name": titleText, "item": pageUrl}
+				]
+			};
+			const b = document.createElement('script'); b.type='application/ld+json'; b.textContent = JSON.stringify(breadcrumb);
+			document.head.appendChild(b);
+
+			// Product with multiple offers (prices mirrored from cart)
+			const prices = {
+				Metallic: { "20x40": 220, "24x36": 150, "20x30": 120, "16x24": 70 },
+				Acrylic:  { "20x40": 180, "24x36": 130, "20x30": 100, "16x24": 60 },
+				Canvas:   { "20x40": 180, "24x36": 130, "20x30": 100, "16x24": 60 }
+			};
+			const offers = [];
+			Object.entries(prices).forEach(([finish, sizeMap])=>{
+				Object.entries(sizeMap).forEach(([size, price])=>{
+					offers.push({
+						"@type":"Offer",
+						"priceCurrency":"USD",
+						"price": price,
+						"availability":"https://schema.org/InStock",
+						"itemCondition":"https://schema.org/NewCondition",
+						"sku": `${baseName}-${finish.toLowerCase()}-${size.replace(/\"/g,'')}`,
+						"url": pageUrl
+					});
+				});
+			});
+			const product = {
+				"@context": "https://schema.org",
+				"@type": "Product",
+				"name": titleText,
+				"image": imageUrl,
+				"description": `${titleText} premium wall art available in canvas, metal, and acrylic finishes.`,
+				"brand": {"@type":"Brand","name":"Wild West Wall Art"},
+				"offers": offers
+			};
+			const p = document.createElement('script'); p.type='application/ld+json'; p.textContent = JSON.stringify(product);
+			document.head.appendChild(p);
+		})();
+	})();
+	</script>
+	<script>
+	// Mobile nav toggle
+	(function(){
+		const btn = document.querySelector('.nav-toggle');
+		const menu = document.getElementById('nav-menu');
+		if (btn && menu) {
+			btn.addEventListener('click', () => {
+				const open = menu.classList.toggle('open');
+				btn.setAttribute('aria-expanded', String(open));
+			});
+		}
+	})();
+	</script>
+</body>
+</html>

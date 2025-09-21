@@ -1,0 +1,49 @@
+{
+  "name": "Wild West Wall Art Products",
+  "workspaceId": "YOUR_WORKSPACE_ID",
+  "tables": [
+    {
+      "name": "Products",
+      "description": "E‑commerce products",
+      "fields": [
+        { "name": "Title", "type": "singleLineText" },
+        { "name": "Description", "type": "multilineText" },
+        { "name": "ShortDescription", "type": "multilineText" },
+        {
+          "name": "Category",
+          "type": "singleSelect",
+          "options": { "choices": [ { "name": "Landscapes" }, { "name": "Abstracts" }, { "name": "Wildlife" }, { "name": "Other" } ] }
+        },
+        {
+          "name": "Tags",
+          "type": "multipleSelects",
+          "options": { "choices": [ { "name": "Arizona" }, { "name": "Desert" }, { "name": "Mountain" }, { "name": "Storm" }, { "name": "Arch" } ] }
+        },
+        { "name": "MainImage", "type": "multipleAttachments" },
+        { "name": "GalleryImages", "type": "multipleAttachments" },
+        { "name": "AcrylicPreview", "type": "multipleAttachments" },
+        { "name": "MetalPreview", "type": "multipleAttachments" },
+        { "name": "CanvasPreview", "type": "multipleAttachments" },
+        { "name": "Acrylic20x40", "type": "number" },
+        { "name": "Acrylic24x36", "type": "number" },
+        { "name": "Acrylic20x30", "type": "number" },
+        { "name": "Acrylic16x24", "type": "number" },
+        { "name": "Metal20x40", "type": "number" },
+        { "name": "Metal24x36", "type": "number" },
+        { "name": "Metal20x30", "type": "number" },
+        { "name": "Metal16x24", "type": "number" },
+        { "name": "Canvas20x40", "type": "number" },
+        { "name": "Canvas24x36", "type": "number" },
+        { "name": "Canvas20x30", "type": "number" },
+        { "name": "Canvas16x24", "type": "number" },
+        { "name": "SEOTitle", "type": "singleLineText" },
+        { "name": "SEODescription", "type": "multilineText" },
+        { "name": "Featured", "type": "checkbox", "options": { "color": "greenBright", "icon": "check" } },
+        { "name": "InStock", "type": "checkbox", "options": { "color": "greenBright", "icon": "check" } },
+        { "name": "Stock", "type": "number" },
+        { "name": "Artist", "type": "singleLineText" },
+        { "name": "created_time", "type": "createdTime" }
+      ]
+    }
+  ]
+}

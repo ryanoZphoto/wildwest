@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Checkout | Western Wall Art – Wild West Wall Art</title>
+	<meta name="description" content="Secure checkout for Western wall art prints. PayPal supported. Free shipping over $100 or $10 flat rate." />
+	<link rel="stylesheet" href="styles.css" />
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": "Wild West Wall Art",
+		"url": "https://ryanosmunphoto.com/",
+		"logo": "https://ryanosmunphoto.com/finlogo.png",
+		"sameAs": [
+			"https://www.instagram.com/wildwestwallart/",
+			"https://www.facebook.com/737106739485705"
+		],
+		"contactPoint": [{
+			"@type": "ContactPoint",
+			"contactType": "customer support",
+			"telephone": "+1-480-235-0732",
+			"email": "ryan@ryanosmunphoto.com"
+		}],
+		"address": {
+			"@type": "PostalAddress",
+			"addressLocality": "Mesa",
+			"addressRegion": "AZ",
+			"addressCountry": "US"
+		}
+	}
+	</script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-67REFDBJP3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-67REFDBJP3');
+	</script>
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17501059263"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17501059263');
+</script>
+</head>
+<body class="white-bg">
+	<nav class="nav" aria-label="Primary">
+		<div class="nav-inner">
+			<a class="nav-brand" href="index.html">
+				<img src="finlogo.png" alt="Wild West Wall Art logo" class="logo">
+				<span>Wild West Wall Art</span>
+			</a>
+			<button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">☰</button>
+			<ul id="nav-menu" class="nav-links">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="gallery.html">Gallery</a></li>
+				<li><a href="cart.html" aria-current="page">Cart</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<main style="padding: 1.5rem 1rem;">
+		<h1>Checkout</h1>
+		<div class="grid-2" style="max-width: 1100px; margin: 0 auto; align-items: start;">
+			<section>
+				<h2 id="item-title">Selected Item</h2>
+				<div id="item-preview" class="preview-container" style="margin-top: .75rem;"></div>
+			</section>
+			<section>
+				<form name="order" method="GET" netlify-honeypot="bot-field" action="/thankyou.html">
+					<input type="hidden" name="form-name" value="order">
+					<p style="display:none">
+						<label>Don’t fill this out: <input name="bot-field"></label>
+					</p>
+					<p>
+						<label>Name:<br>
+							<input type="text" name="name" required>
+						</label>
+					</p>
+					<p>
+						<label>Email:<br>
+							<input type="email" name="email" required>
+						</label>
+					</p>
+					<p>
+						<label>Finish:<br>
+							<select name="finish" required>
+								<option value="Metallic">Metallic</option>
+								<option value="Acrylic">Acrylic</option>
+								<option value="Canvas">Canvas</option>
+							</select>
+						</label>
+					</p>
+					<p>
+						<label>Size:<br>
+							<select name="size" required>
+								<option value="20x40">20x40"</option>
+								<option value="24x36">24x36"</option>
+								<option value="20x30">20x30"</option>
+								<option value="16x24">16x24"</option>
+							</select>
+						</label>
+					</p>
+					<p>
+						<label>Quantity:<br>
+							<input type="number" name="quantity" value="1" min="1" step="1">
+						</label>
+					</p>
+					<p>
+						<label>Message:<br>
+							<textarea name="message"></textarea>
+						</label>
+					</p>
+
+					<fieldset>
+						<legend>Shipping Address</legend>
+						<p>
+							<label>Address Line 1:<br>
+								<input type="text" name="address_line_1" required>
+							</label>
+						</p>
+						<p>
+							<label>Address Line 2 (optional):<br>
+								<input type="text" name="address_line_2">
+							</label>
+						</p>
+						<p>
+							<label>City:<br>
+								<input type="text" name="city" required>
+							</label>
+						</p>
+						<p>
+							<label>State (2-letter):<br>
+								<input type="text" name="state" maxlength="2" pattern="[A-Za-z]{2}" required>
+							</label>
+						</p>
+						<p>
+							<label>Postal Code:<br>
+								<input type="text" name="postal_code" pattern="\d{5}(-\d{4})?" required>
+							</label>
+						</p>
+						<p>
+							<label>Country:<br>
+								<input type="text" name="country_code" value="US" maxlength="2" pattern="[A-Za-z]{2}" required>
+							</label>
+						</p>
+					</fieldset>
+
+					<p id="total"></p>
+					<input type="hidden" name="photo_title">
+					<input type="hidden" name="paypal_order_id">
+					<input type="hidden" name="paypal_payer_email">
+					<div id="paypal-button-container"></div>
+				</form>
+			</section>
+		</div>
+	</main>
+
+	<footer>
+		<p>&copy; 2024 Wild West Wall Art · <a href="legal/shipping.html">Shipping</a> · <a href="legal/returns.html">Returns</a></p>
+	</footer>
+
+	  <script type="module">
+		import cartService from './src/utils/cart.js';
+		import airtableService from './src/utils/airtable.v5.js';
+	import { STRIPE_CONFIG } from './src/utils/config.js';
+
+	class CartManager {
+		constructor() {
+			this.cart = [];
+			this.loading = true;
+			this.init();
+		}
+
+		async init() {
+			this.setupEventListeners();
+			await this.loadCart();
+			this.renderCart();
+			await this.setupPaymentMethods();
+		}
+
+		setupEventListeners() {
+			// Listen for cart changes
+			cartService.addListener((updatedCart) => {
+				this.cart = updatedCart;
+				this.renderCart();
+			});
+
+			// Quantity change handlers
+			document.addEventListener('click', (e) => {
+				if (e.target.classList.contains('quantity-minus')) {
+					const itemId = e.target.closest('.cart-item').dataset.itemId;
+					const item = this.cart.find(item => item.id === itemId);
+					if (item && item.quantity > 1) {
+						cartService.updateItemQuantity(itemId, item.quantity - 1);
+					}
+				} else if (e.target.classList.contains('quantity-plus')) {
+					const itemId = e.target.closest('.cart-item').dataset.itemId;
+					const item = this.cart.find(item => item.id === itemId);
+					if (item) {
+						cartService.updateItemQuantity(itemId, item.quantity + 1);
+					}
+				} else if (e.target.classList.contains('remove-item')) {
+					const itemId = e.target.closest('.cart-item').dataset.itemId;
+					if (confirm('Remove this item from cart?')) {
+						cartService.removeItem(itemId);
+					}
+				}
+			});
+		}
+
+		async loadCart() {
+			try {
+				await cartService.validateCart();
+				this.cart = cartService.getItems();
+			} catch (error) {
+				console.error('Error loading cart:', error);
+				this.cart = [];
+			}
+			this.loading = false;
+		}
+
+		renderCart() {
+			const container = document.querySelector('.grid-2');
+			const cartSummary = cartService.getSummary();
+
+			if (this.loading) {
+				container.innerHTML = `
+					<div style="grid-column: 1/-1; text-align: center; padding: 4rem;">
+						<p>Loading your cart...</p>
+					</div>
+				`;
+				return;
+			}
+
+			if (this.cart.length === 0) {
+				container.innerHTML = `
+					<div style="grid-column: 1/-1; text-align: center; padding: 6rem 2rem;">
+						<h2>Your cart is empty</h2>
+						<p>Discover beautiful Western wall art for your home</p>
+						<a href="gallery.html" class="order-cta" style="display: inline-block; margin-top: 2rem;">Browse Gallery</a>
+					</div>
+				`;
+				return;
+			}
+
+			const cartItems = this.cart.map(item => `
+				<div class="cart-item" data-item-id="${item.id}" style="display: grid; grid-template-columns: 100px 1fr auto; gap: 1rem; padding: 1rem; border-bottom: 1px solid #e0e0e0; align-items: center;">
+					<a href="product.html?id=${item.productId}" style="display: block;">
+						<img src="${item.productData.mainImage}" alt="${item.productData.title}" style="width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 4px;">
+					</a>
+					<div class="item-details" style="padding: 0 1rem;">
+						<h4 style="margin: 0; font-weight: 600;">${item.productData.title}</h4>
+						<p style="margin: 0.5rem 0; color: #666;">${item.finish} • ${item.size}"</p>
+						<div class="quantity-controls" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+							<button class="quantity-minus" style="width: 30px; height: 30px; border: 2px solid #e0e0e0; border-radius: 4px; background: #fff; cursor: pointer; font-size: 1.2rem;">-</button>
+							<span style="font-weight: 600; min-width: 30px; text-align: center;">${item.quantity}</span>
+							<button class="quantity-plus" style="width: 30px; height: 30px; border: 2px solid #e0e0e0; border-radius: 4px; background: #fff; cursor: pointer; font-size: 1.2rem;">+</button>
+						</div>
+					</div>
+					<div class="item-price" style="text-align: right;">
+						<div style="font-weight: 700; color: #d4a373; margin-bottom: 0.5rem;">$${item.price}</div>
+						<button class="remove-item" style="background: none; border: none; color: #666; cursor: pointer; font-size: 0.8rem;">Remove</button>
+					</div>
+				</div>
+			`).join('');
+
+			const orderForm = document.createElement('div');
+			orderForm.innerHTML = `
+				<form name="order" method="GET" netlify-honeypot="bot-field" action="/thankyou.html">
+					<input type="hidden" name="form-name" value="order">
+					<p style="display:none">
+						<label>Don't fill this out: <input name="bot-field"></label>
+					</p>
+
+					<h3>Contact Information</h3>
+					<p>
+						<label>Name:<br>
+							<input type="text" name="name" required>
+						</label>
+					</p>
+					<p>
+						<label>Email:<br>
+							<input type="email" name="email" required>
+						</label>
+					</p>
+
+					<h3>Shipping Address</h3>
+					<p>
+						<label>Address Line 1:<br>
+							<input type="text" name="address_line_1" required>
+						</label>
+					</p>
+					<p>
+						<label>Address Line 2 (optional):<br>
+							<input type="text" name="address_line_2">
+						</label>
+					</p>
+					<p>
+						<label>City:<br>
+							<input type="text" name="city" required>
+						</label>
+					</p>
+					<p>
+						<label>State (2-letter):<br>
+							<input type="text" name="state" maxlength="2" pattern="[A-Za-z]{2}" required>
+						</label>
+					</p>
+					<p>
+						<label>Postal Code:<br>
+							<input type="text" name="postal_code" pattern="\\d{5}(-\\d{4})?" required>
+						</label>
+					</p>
+					<p>
+						<label>Country:<br>
+							<input type="text" name="country_code" value="US" maxlength="2" pattern="[A-Za-z]{2}" required>
+						</label>
+					</p>
+
+					<input type="hidden" name="cart_items">
+					<input type="hidden" name="paypal_order_id">
+					<input type="hidden" name="paypal_payer_email">
+				</form>
+			`;
+
+			container.innerHTML = `
+				<section>
+					<h2>Shopping Cart (${cartSummary.itemCount} items)</h2>
+					<div class="cart-items" style="margin-top: 1rem;">
+						${cartItems}
+					</div>
+					<div class="cart-totals" style="margin-top: 2rem; padding: 1rem; background: #f9f9f9; border-radius: 8px;">
+						${cartSummary.freeShipping ? '<div style="color: #22c55e; margin-bottom: 1rem;">🎉 You qualify for FREE shipping!</div>' : ''}
+						<div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; margin-bottom: 1rem;">
+							<span>Subtotal:</span>
+							<span style="text-align: right;">$${cartSummary.subtotal}</span>
+							<span>Shipping:</span>
+							<span style="text-align: right;">$${cartSummary.shipping}</span>
+							<span style="font-weight: 700;">Total:</span>
+							<span style="text-align: right; font-weight: 700; color: #d4a373;">$${cartSummary.total}</span>
+						</div>
+						<div id="paypal-button-container" style="margin-top: 2rem;"></div>
+						<div id="stripe-button-container" style="margin-top: 1rem;"></div>
+					</div>
+				</section>
+				<section id="checkout-section">
+					${orderForm.innerHTML}
+				</section>
+			`;
+
+			// Update form with cart data
+			this.updateFormData();
+		}
+
+		updateFormData() {
+			const cartItems = cartService.prepareForCheckout();
+			document.forms.order.elements.cart_items.value = JSON.stringify(cartItems);
+		}
+
+		async setupPaymentMethods() {
+			// PayPal
+			this.loadPayPalSDK();
+
+			// Stripe (if configured)
+			if (STRIPE_CONFIG.PUBLISHABLE_KEY !== 'your_stripe_publishable_key_here') {
+				this.loadStripeSDK();
+			}
+		}
+
+		loadPayPalSDK() {
+			const LIVE_CLIENT_ID = 'AcosS2AbZFUgYmDEx1dh9piJdWL3jM2u0RCRdjf5rJ0YerCZluqwthmTzCzWmov46D39CmL6N8Gysh6a';
+			const url = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(LIVE_CLIENT_ID)}&currency=USD&intent=capture&components=buttons&enable-funding=card&commit=true`;
+			const script = document.createElement('script');
+			script.src = url;
+			script.async = true;
+			script.onload = () => this.renderPayPalButtons();
+			script.onerror = () => console.error('Failed to load PayPal SDK');
+			document.head.appendChild(script);
+		}
+
+		renderPayPalButtons() {
+			if (!window.paypal?.Buttons) return;
+
+			const cartSummary = cartService.getSummary();
+			const form = document.forms.order;
+
+			function val(name) {
+				return form.elements[name]?.value?.trim() || '';
+			}
+
+			function createPayPalOrder() {
+				if (!val('name') || !val('email') || !val('address_line_1') || !val('city') || !val('state') || !val('postal_code')) {
+					alert('Please fill in all required shipping information before checking out.');
+					return null;
+				}
+
+				const cartItems = cartService.prepareForCheckout();
+				const purchaseUnits = cartItems.map(item => ({
+					name: item.product_name,
+					unit_amount: { currency_code: 'USD', value: item.price.toFixed(2) },
+					quantity: item.quantity.toString(),
+					item_id: item.product_id
+				}));
+
+				// Create shipping address
+				const address = {
+					address_line_1: val('address_line_1'),
+					admin_area_2: val('city'),
+					admin_area_1: val('state').toUpperCase(),
+					postal_code: val('postal_code'),
+					country_code: val('country_code').toUpperCase()
+				};
+				const line2 = val('address_line_2');
+				if (line2) address.address_line_2 = line2;
+
+				return {
+					intent: 'CAPTURE',
+					purchase_units: [{
+						amount: {
+							value: cartSummary.total,
+							currency_code: 'USD',
+							breakdown: {
+								item_total: { currency_code: 'USD', value: cartSummary.subtotal },
+								shipping: { currency_code: 'USD', value: cartSummary.shipping }
+							}
+						},
+						items: purchaseUnits,
+						shipping: { name: { full_name: val('name') }, address }
+					}],
+					application_context: {
+						brand_name: 'Wild West Wall Art'
+					}
+				};
+			}
+
+			window.paypal.Buttons({
+				style: { layout: 'vertical', shape: 'rect' },
+				createOrder: function(data, actions) {
+					const orderData = createPayPalOrder();
+					if (!orderData) throw new Error('Missing required information');
+					return actions.order.create(orderData);
+				},
+				onApprove: function(data, actions) {
+					return actions.order.capture().then(function(details) {
+						const orderId = details?.id || '';
+						const payer = details?.payer?.email_address || '';
+						const params = new URLSearchParams({ orderId, payer });
+						window.location.href = `thankyou.html?${params.toString()}`;
+					});
+				},
+				onError: function(err) {
+					console.error('PayPal payment error:', err);
+					alert('There was a problem processing the payment. Please try again.');
+				}
+			}).render('#paypal-button-container');
+		}
+
+		loadStripeSDK() {
+			const script = document.createElement('script');
+			script.src = 'https://js.stripe.com/v3/';
+			script.async = true;
+			script.onload = () => this.renderStripeButton();
+			document.head.appendChild(script);
+		}
+
+		renderStripeButton() {
+			// Stripe implementation would go here
+		}
+	}
+
+	// Initialize cart manager
+	new CartManager();
+	</script>
+	<script>
+	// Mobile nav toggle
+	(function(){
+		const btn = document.querySelector('.nav-toggle');
+		const menu = document.getElementById('nav-menu');
+		if (btn && menu) {
+			btn.addEventListener('click', () => {
+				const open = menu.classList.toggle('open');
+				btn.setAttribute('aria-expanded', String(open));
+			});
+		}
+	})();
+	</script>
+</body>
+</html>

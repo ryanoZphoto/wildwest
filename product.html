@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wild West Wall Art</title>
+  <meta name="description" content="Premium Western wall art prints in metal, acrylic, and canvas. Ready-to-hang quality. Free shipping on orders over $100." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="finlogo.png">
+  <script type="application/ld+json" id="product-schema">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Western Wall Art Print",
+    "description": "Fine art photography print",
+    "brand": {
+      "@type": "Brand",
+      "name": "Ryan Osmun"
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "Wild West Wall Art"
+      }
+    }
+  }
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67REFDBJP3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-67REFDBJP3');
+  </script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17501059263"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17501059263');
+</script></head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">
+        <img src="finlogo.png" alt="Wild West Wall Art logo" class="logo">
+        <span>Wild West Wall Art</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">☰</button>
+      <ul id="nav-menu" class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; background: #fff;">
+    <div id="product-container" class="product-detail-container">
+      <!-- Product content will be loaded here -->
+    </div>
+  </main>
+
+  <footer style="background: #1a1a1a;">
+    <p>&copy; 2024 Wild West Wall Art · <a href="legal/shipping.html">Shipping</a> · <a href="legal/returns.html">Returns</a></p>
+  </footer>
+
+  <script type="module">
+    import airtableService from './src/utils/airtable.v5.js';
+    import ProductDetail from './src/components/ProductDetail.js';
+    import { PRODUCT_CONSTANTS } from './src/utils/config.js';
+
+    // Get product ID from URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id') || urlParams.get('product');
+
+    if (!productId) {
+      document.getElementById('product-container').innerHTML = `
+        <div style="text-align: center; padding: 4rem 2rem;">
+          <h1 style="font-size: 2rem; margin-bottom: 1rem;">Product Not Found</h1>
+          <p style="color: #666; margin-bottom: 2rem;">Sorry, we couldn't find the product you're looking for.</p>
+          <a href="gallery.html" class="order-cta">Browse Gallery</a>
+        </div>
+      `;
+    } else {
+      loadProduct();
+    }
+
+    async function loadProduct() {
+      try {
+        const product = await airtableService.getProductById(productId);
+
+        if (!product) {
+          document.getElementById('product-container').innerHTML = `
+            <div style="text-align: center; padding: 4rem 2rem;">
+              <h1 style="font-size: 2rem; margin-bottom: 1rem;">Product Not Found</h1>
+              <p style="color: #666; margin-bottom: 2rem;">This product may have been removed or is temporarily unavailable.</p>
+              <a href="gallery.html" class="order-cta">Browse Gallery</a>
+            </div>
+          `;
+          return;
+        }
+
+        // Update page metadata
+        document.title = `${product.seoTitle || product.title} - Wild West Wall Art`;
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          metaDescription.setAttribute('content', product.seoDescription || product.shortDescription);
+        }
+
+        // Update structured data
+        const schema = {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": product.title,
+          "description": product.description,
+          "image": product.mainImage,
+          "brand": {
+            "@type": "Brand",
+            "name": product.artist || "Ryan Osmun"
+          },
+          "offers": product.availableFinishes.map(finish => ({
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "price": Math.min(...Object.values(product.prices[finish])),
+            "seller": {
+              "@type": "Organization",
+              "name": "Wild West Wall Art"
+            }
+          }))
+        };
+
+        document.getElementById('product-schema').textContent = JSON.stringify(schema, null, 2);
+
+        // Initialize product detail component
+        const productDetail = new ProductDetail(product, 'product-container');
+
+        // Load related products
+        loadRelatedProducts(product);
+
+      } catch (error) {
+        console.error('Error loading product:', error);
+        document.getElementById('product-container').innerHTML = `
+          <div style="text-align: center; padding: 4rem 2rem;">
+            <h1 style="font-size: 2rem; margin-bottom: 1rem;">Loading Error</h1>
+            <p style="color: #666; margin-bottom: 2rem;">Sorry, there was an error loading this product. Please try again.</p>
+            <a href="gallery.html" class="order-cta">Browse Gallery</a>
+          </div>
+        `;
+      }
+    }
+
+    async function loadRelatedProducts(currentProduct) {
+      try {
+        const relatedContainer = document.getElementById('related-products-container');
+        if (!relatedContainer) return;
+
+        const allProducts = await airtableService.getAllProducts();
+        const relatedProducts = allProducts
+          .filter(p => p.id !== currentProduct.id)
+          .filter(p => p.category === currentProduct.category ||
+                      p.tags.some(tag => currentProduct.tags.includes(tag)))
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 4);
+
+        if (relatedProducts.length > 0) {
+          relatedContainer.innerHTML = relatedProducts.map(product => `
+            <div class="gallery-card" style="background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer;" onclick="window.location.href='product.html?id=${product.id}'">
+              <img src="${product.mainImage}" alt="${product.title}" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
+              <div style="padding: 1rem;">
+                <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">${product.title}</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">${product.shortDescription}</p>
+                <div style="color: #d4a373; font-weight: 700;">
+                  From $${Math.min(...Object.values(product.prices.acrylic))} - $${Math.max(...Object.values(product.prices.acrylic))}
+                </div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          document.querySelector('.related-products').style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error loading related products:', error);
+      }
+    }
+
+    // Mobile nav toggle
+    (function(){
+      const btn = document.querySelector('.nav-toggle');
+      const menu = document.getElementById('nav-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          const open = menu.classList.toggle('open');
+          btn.setAttribute('aria-expanded', String(open));
+        });
+      }
+    })();
+
+    // loadProduct is called conditionally above when productId exists
+  </script>
+</body>
+</html>

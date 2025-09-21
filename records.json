@@ -1,0 +1,43 @@
+{
+  "records": [
+    {
+      "fields": {
+        "Title": "Superstition Mountain Landscape",
+        "Description": "Striking landscape photograph of Superstition Mountain in Arizona. Perfect for western decor.",
+        "ShortDescription": "Beautiful Arizona desert landscape",
+        "Category": "Landscapes",
+        "Tags": ["Arizona","Desert","Mountain"],
+        "MainImage": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/images/superstitionmtn.jpg" }],
+        "GalleryImages": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/images/utahbigarch.jpg" }],
+        "AcrylicPreview": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/acrylic_previews/superstitionmtn_acrylic2.png" }],
+        "MetalPreview": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/metal_previews/superstitionmtn_metal1.jpg" }],
+        "CanvasPreview": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/canvas_previews/superstitionmtn_canvas.jpg" }],
+        "Acrylic20x40": 180, "Acrylic24x36": 130, "Acrylic20x30": 100, "Acrylic16x24": 60,
+        "Metal20x40": 220, "Metal24x36": 150, "Metal20x30": 120, "Metal16x24": 70,
+        "Canvas20x40": 180, "Canvas24x36": 130, "Canvas20x30": 100, "Canvas16x24": 60,
+        "SEOTitle": "Superstition Mountain - Premium Western Wall Art",
+        "SEODescription": "Buy Superstition Mountain landscape wall art in acrylic, metal, or canvas.",
+        "Featured": true, "InStock": true, "Stock": 5, "Artist": "Ryan Osmun"
+      }
+    },
+    {
+      "fields": {
+        "Title": "Utah Big Arch",
+        "Description": "Majestic Utah arch at golden hour.",
+        "ShortDescription": "Iconic Utah arch, warm tones",
+        "Category": "Landscapes",
+        "Tags": ["Arch","Desert"],
+        "MainImage": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/images/utahbigarch.jpg" }],
+        "AcrylicPreview": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/acrylic_previews/utahbigarch_acrylic.png" }],
+        "MetalPreview": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/metal_previews/utahbigarch_metal2.jpg" }],
+        "CanvasPreview": [{ "url": "https://extraordinary-gelato-08fef1.netlify.app/canvas_previews/superstitionmtn_canvas.jpg" }],
+        "Acrylic20x40": 180, "Acrylic24x36": 130, "Acrylic20x30": 100, "Acrylic16x24": 60,
+        "Metal20x40": 220, "Metal24x36": 150, "Metal20x30": 120, "Metal16x24": 70,
+        "Canvas20x40": 180, "Canvas24x36": 130, "Canvas20x30": 100, "Canvas16x24": 60,
+        "SEOTitle": "Utah Arch - Premium Western Wall Art",
+        "SEODescription": "Buy Utah arch wall art in acrylic, metal, or canvas.",
+        "Featured": true, "InStock": true, "Stock": 3, "Artist": "Ryan Osmun"
+      }
+    }
+  ]
+}

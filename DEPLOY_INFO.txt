@@ -1,0 +1,11 @@
+This folder is a clean deployment bundle for Netlify drag-and-drop.
+
+Generated with unified build tool.
+
+Files included:
+- Core HTML pages
+- Images and galleries
+- Product pages
+- Feeds and data
+- Legal pages
+- Styles and assets

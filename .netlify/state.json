@@ -1,0 +1,22 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Glendale",
+			"country": {
+				"code": "US",
+				"name": "United States"
+			},
+			"subdivision": {
+				"code": "AZ",
+				"name": "Arizona"
+			},
+			"timezone": "America/Phoenix",
+			"latitude": 33.5339,
+			"longitude": -112.1722,
+			"postalCode": "85301"
+		},
+		"timestamp": 1758414876096
+	},
+	"siteId": "c59df00b-7b3f-4ae8-8d90-3c8028805a1c",
+	"promptVSCodeSettings": true
+}

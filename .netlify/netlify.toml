@@ -1,0 +1,104 @@
+functionsDirectory = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy\\netlify\\functions"
+functionsDirectoryOrigin = "config-v1"
+redirectsOrigin = "config"
+plugins = []
+
+[build]
+publish = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy"
+publishOrigin = "config"
+base = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy"
+functions = "C:\\Users\\ryano\\OneDrive\\Desktop\\smallsite\\thebuild\\deploy\\netlify\\functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[dev]
+publish = "."
+functions = "netlify/functions"
+framework = "#static"
+autoLaunch = true
+
+[functions]
+
+[functions."*"]
+
+[[headers]]
+for = "/feeds/*"
+
+[headers.values]
+X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+for = "/images/*.jpg"
+
+[headers.values]
+Content-Type = "image/jpeg"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "/images/*.jpeg"
+
+[headers.values]
+Content-Type = "image/jpeg"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "/images/*.png"
+
+[headers.values]
+Content-Type = "image/png"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "/images/*.gif"
+
+[headers.values]
+Content-Type = "image/gif"
+X-Content-Type-Options = "nosniff"
+
+[[redirects]]
+from = "/shipping.html"
+to = "/legal/shipping.html"
+status = 301.0
+force = true
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/returns.html"
+to = "/legal/returns.html"
+status = 301.0
+force = true
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]

@@ -1,0 +1,16 @@
+/feeds/*
+  X-Robots-Tag: noindex, nofollow
+
+/images/*.jpg
+  Content-Type: image/jpeg
+  X-Content-Type-Options: nosniff
+/images/*.jpeg
+  Content-Type: image/jpeg
+  X-Content-Type-Options: nosniff
+/images/*.png
+  Content-Type: image/png
+  X-Content-Type-Options: nosniff
+/images/*.gif
+  Content-Type: image/gif
+  X-Content-Type-Options: nosniff
+

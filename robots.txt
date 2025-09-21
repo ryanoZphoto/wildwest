@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /feeds/
+Sitemap: https://ryanosmunphoto.com/sitemap.xml

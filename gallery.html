@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gallery - Wild West Wall Art</title>
+  <link rel="stylesheet" href="styles.css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17501059263"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17501059263');
+</script></head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">
+        <img src="finlogo.png" alt="Wild West Wall Art logo" class="logo">
+        <span>Wild West Wall Art</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">☰</button>
+      <ul id="nav-menu" class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html" aria-current="page">Gallery</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main style="padding: 1.5rem 1rem; max-width: 1200px; margin: 0 auto;">
+    <section id="gallery">
+      <h2>Gallery</h2>
+      <p class="gallery-intro">Browse the gallery below. Click any image to preview it in Canvas, Metal, or Acrylic finishes and order your preferred option.</p>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </section>
+  </main>
+
+  <script type="module">
+  import airtableService from './src/utils/airtable.v5.js';
+
+  // Mobile nav toggle
+  (function(){
+    const btn = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    if (btn && menu) {
+      btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    }
+  })();
+
+  // Enhanced gallery with search and filtering
+  class GalleryManager {
+    constructor() {
+      this.products = [];
+      this.filteredProducts = [];
+      this.filters = {
+        search: '',
+        category: '',
+        finish: '',
+        sortBy: 'newest'
+      };
+      this.init();
+    }
+
+    async init() {
+      await this.loadProducts();
+      this.setupSearchFilters();
+      this.renderProducts();
+    }
+
+    async loadProducts() {
+      try {
+        const grid = document.getElementById('gallery-grid');
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem;"><p>Loading gallery...</p></div>';
+
+        this.products = await airtableService.getAllProducts();
+        if (!this.products || this.products.length === 0) {
+          await this.loadLocalFallback();
+        } else {
+          this.filteredProducts = [...this.products];
+          this.applyFilters();
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+        await this.loadLocalFallback();
+      }
+    }
+
+    async loadLocalFallback() {
+      try {
+        const res = await fetch('gallery-list.json', { cache: 'no-store' });
+        const data = await res.json();
+        const files = Array.isArray(data.images) ? data.images : [];
+        const toTitle = (file) => file.replace(/\.[^.]+$/, '').replace(/[-_]+/g,' ').replace(/\b\w/g, m => m.toUpperCase());
+        const toSlug = (file) => file.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+        const fallbackPrices = { acrylic: { '16x24': 60, '20x30': 100, '24x36': 130, '20x40': 180 } };
+        this.products = files.map(file => ({
+          id: toSlug(file),
+          title: toTitle(file),
+          description: 'Limited edition print',
+          tags: [],
+          mainImage: `images/${file}`,
+          prices: fallbackPrices,
+          local: true
+        }));
+        this.filteredProducts = [...this.products];
+        this.applyFilters();
+        const grid = document.getElementById('gallery-grid');
+        const note = document.createElement('div');
+        note.style.gridColumn = '1 / -1';
+        note.style.textAlign = 'center';
+        note.style.margin = '0 0 1rem';
+        note.style.opacity = '.8';
+        note.innerHTML = '<small>Showing local gallery fallback.</small>';
+        grid.parentElement.insertBefore(note, grid);
+      } catch (e) {
+        console.error('Local fallback failed:', e);
+        const grid = document.getElementById('gallery-grid');
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;"><h3>No products found</h3><p>Please check back soon.</p></div>';
+      }
+    }
+
+    setupSearchFilters() {
+      // Search input
+      const searchInput = document.createElement('input');
+      searchInput.type = 'text';
+      searchInput.placeholder = 'Search products...';
+      searchInput.style.cssText = `
+        padding: 0.75rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 2rem;
+        margin-left: 1rem;
+      `;
+
+      searchInput.addEventListener('input', (e) => {
+        this.filters.search = e.target.value.toLowerCase();
+        this.applyFilters();
+        this.renderProducts();
+      });
+
+      // Insert search bar before gallery
+      const gallerySection = document.querySelector('#gallery');
+      const intro = gallerySection.querySelector('.gallery-intro');
+      intro.insertAdjacentElement('afterend', searchInput);
+    }
+
+    applyFilters() {
+      let filtered = [...this.products];
+
+      // Search filter
+      if (this.filters.search) {
+        filtered = filtered.filter(product =>
+          product.title.toLowerCase().includes(this.filters.search) ||
+          product.description.toLowerCase().includes(this.filters.search) ||
+          product.tags.some(tag => tag.toLowerCase().includes(this.filters.search))
+        );
+      }
+
+      // Sort
+      switch (this.filters.sortBy) {
+        case 'price_asc':
+          filtered.sort((a, b) => Math.min(...Object.values(a.prices.acrylic)) - Math.min(...Object.values(b.prices.acrylic)));
+          break;
+        case 'price_desc':
+          filtered.sort((a, b) => Math.max(...Object.values(b.prices.acrylic)) - Math.max(...Object.values(a.prices.acrylic)));
+          break;
+        case 'title':
+          filtered.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        default:
+          filtered.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
+      }
+
+      this.filteredProducts = filtered;
+    }
+
+    renderProducts() {
+      const grid = document.getElementById('gallery-grid');
+      if (!grid) return;
+
+      if (this.filteredProducts.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+            <h3>No products found</h3>
+            <p>${this.filters.search ? 'Try adjusting your search criteria.' : 'Check back soon for new products!'}</p>
+            ${this.filters.search ? '<button onclick="location.reload()" style="padding: 0.75rem 1.5rem; background: #d4a373; color: white; border: none; border-radius: 6px; cursor: pointer;">Clear Search</button>' : ''}
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = this.filteredProducts.map(product => this.createProductCard(product)).join('');
+    }
+
+    createProductCard(product) {
+      const finishes = ['canvas', 'metal', 'acrylic'];
+
+      return `
+        <div class="gallery-card" tabindex="0" aria-label="${product.title}">
+          <a href="${product.local ? `photos/${product.id}.html` : `product.html?id=${product.id}`}" aria-hidden="true" tabindex="-1">
+            <img src="${product.mainImage}" alt="${product.title}" class="thumb" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
+          </a>
+          <div class="actions">
+            ${finishes.map(finish => `
+              <a href="${product.local ? `photos/${product.id}.html` : `product.html?id=${product.id}&finish=${finish}`}" class="pill" data-finish="${finish}">
+                ${finish.charAt(0).toUpperCase() + finish.slice(1)}
+              </a>
+            `).join('')}
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">${product.title}</h3>
+            <p class="product-price">From $${Math.min(...Object.values(product.prices.acrylic))}</p>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  // Initialize gallery
+  new GalleryManager();
+  </script>
+</body>
+</html>
